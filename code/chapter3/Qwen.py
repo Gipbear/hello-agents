@@ -39,7 +39,11 @@ print(model_inputs)
 # max_new_tokens 控制了模型最多能生成多少个新的Token
 generated_ids = model.generate(
     model_inputs.input_ids,
-    max_new_tokens=512
+    attention_mask=model_inputs.attention_mask,
+    max_new_tokens=512,
+    do_sample=False,         # 使用贪婪解码确保可重复性
+    temperature=0.5,         # 温度设为1.0
+    min_new_tokens=10        # 强制模型生成更多内容
 )
 
 # 将生成的 Token ID 截取掉输入部分
