@@ -73,7 +73,9 @@ REFLECT_PROMPT_TEMPLATE = """
 如果存在，请清晰地指出当前算法的不足，并提出具体的、可行的改进算法建议（例如，使用筛法替代试除法）。
 如果代码在算法层面已经达到最优，才能回答“无需改进”。
 
-请直接输出你的反馈，不要包含任何额外的解释。
+请按照如下格式输出：
+结论：需要改进/无需改进
+意见：可以改进的地方，仅作描述，无需给出代码，若无需改进则为空
 """
 
 # 3. 优化提示词
@@ -155,7 +157,7 @@ if __name__ == '__main__':
         exit()
 
     # 2. 初始化 Reflection 智能体，设置最多迭代2轮
-    agent = ReflectionAgent(llm_client, max_iterations=2)
+    agent = ReflectionAgent(llm_client, max_iterations=5)
 
     # 3. 定义任务并运行智能体
     task = "编写一个Python函数，找出1到n之间所有的素数 (prime numbers)。"
