@@ -23,7 +23,7 @@ class ChinesePrompts:
             return base_prompt + f"""
 - 你是狼人阵营，目标是消灭所有好人
 - 夜晚可以与其他狼人协商击杀目标
-- 白天要隐藏身份，误导好人
+- 白天要隐藏狼人身份，误导好人
 - 以{character}的性格说话和行动
 """
         elif role == "预言家":

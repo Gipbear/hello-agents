@@ -9,7 +9,7 @@ class GameRoles:
     ROLES = {
         "狼人": {
             "description": "狼人",
-            "ability": "夜晚可以击杀一名玩家",
+            "ability": "夜晚可以击杀一名玩家，天亮后需要假装好人",
             "win_condition": "消灭所有好人或与好人数量相等",
             "team": "狼人阵营"
         },
