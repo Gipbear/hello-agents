@@ -26,11 +26,11 @@ from structured_output_cn import (
 from utils_cn import (
     check_winning_cn,
     majority_vote_cn,
-    get_chinese_name,
     format_player_list,
     GameModerator,
     MAX_GAME_ROUND,
     MAX_DISCUSSION_ROUND,
+    CHINESE_NAMES,
 )
 
 
@@ -54,11 +54,10 @@ class ThreeKingdomsWerewolfGame:
         
     async def create_player(self, role: str, character: str) -> ReActAgent:
         """创建具有三国背景的玩家"""
-        name = get_chinese_name(character)
-        self.roles[name] = role
+        self.roles[character] = role
         
         agent = ReActAgent(
-            name=name,
+            name=character,
             sys_prompt=ChinesePrompts.get_role_prompt(role, character),
             model=DashScopeChatModel(
                 model_name="qwen-max",
@@ -71,12 +70,12 @@ class ThreeKingdomsWerewolfGame:
         # 角色身份确认
         await agent.observe(
             await self.moderator.announce(
-                f"【{name}】你在这场三国狼人杀中扮演{GameRoles.get_role_desc(role)}，"
+                f"【{character}】你在这场三国狼人杀中扮演{GameRoles.get_role_desc(role)}，"
                 f"你的角色是{character}。{GameRoles.get_role_ability(role)}"
             )
         )
         
-        self.players[name] = agent
+        self.players[character] = agent
         return agent
     
     async def setup_game(self, player_count: int = 6):
@@ -84,11 +83,11 @@ class ThreeKingdomsWerewolfGame:
         print("🎮 开始设置三国狼人杀游戏...")
         
         # 获取角色配置
+        if player_count > len(CHINESE_NAMES):
+            print(f"玩家太多了，当前上线 {len(CHINESE_NAMES)} 名角色扮演，其他小伙伴等下一轮哦~~")
+            exit(1)
         roles = GameRoles.get_standard_setup(player_count)
-        characters = random.sample([
-            "刘备", "关羽", "张飞", "诸葛亮", "赵云",
-            "曹操", "司马懿", "周瑜", "孙权"
-        ], player_count)
+        characters = random.sample(CHINESE_NAMES, player_count)
         
         # 创建玩家
         for i, (role, character) in enumerate(zip(roles, characters)):

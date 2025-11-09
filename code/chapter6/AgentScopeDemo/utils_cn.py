@@ -19,13 +19,6 @@ CHINESE_NAMES = [
 ]
 
 
-def get_chinese_name(character: str = None) -> str:
-    """获取中文角色名"""
-    if character and character in CHINESE_NAMES:
-        return character
-    return random.choice(CHINESE_NAMES)
-
-
 def format_player_list(players: List[AgentBase], show_roles: bool = False) -> str:
     """格式化玩家列表为中文显示"""
     if not players:
