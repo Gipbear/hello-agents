@@ -121,11 +121,12 @@ class ThreeKingdomsWerewolfGame:
         await self.moderator.announce(f"🐺 狼人请睁眼，选择今晚要击杀的目标...")
         
         # 狼人讨论
+        werevolves_names = [werevolf.name for werevolf in self.werewolves]
         async with MsgHub(
             self.werewolves,
             enable_auto_broadcast=True,
             announcement=await self.moderator.announce(
-                f"狼人们，请讨论今晚的击杀目标。存活玩家：{format_player_list(self.alive_players)}"
+                f"狼人们：{werevolves_names}，请讨论今晚的击杀目标。存活玩家：{format_player_list(self.alive_players)}"
             ),
         ) as werewolves_hub:
             # 讨论阶段
